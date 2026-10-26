@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, noimageindex">
+  <meta name="theme-color" content="#18211a">
+  <title>Giriş · Kaderoğlu Ailesi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="/social/assets/login.css">
+</head>
+<body>
+  <!-- arşivden binlerce küçük kare: tek resim, yavaşça kayar -->
+  <div class="lg-wall" aria-hidden="true">
+    <div class="lg-tilt" id="tilt">
+      <div class="lg-tiles"></div>
+    </div>
+  </div>
+  <div class="lg-shade" aria-hidden="true"></div>
+
+  <main class="lg-card">
+    <svg class="lg-leaf" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 60V30" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M32 34c-10 0-18-8-18-18 10 0 18 8 18 18zM32 30c0-10 8-18 18-18 0 10-8 18-18 18zM32 22c-5-4-6-11-2-17 5 4 6 11 2 17z" fill="currentColor"/></svg>
+    <h1>Kaderoğlu Ailesi</h1>
+
+    <form id="loginForm" autocomplete="on">
+      <p class="lg-sub">Aile albümümüze hoş geldiniz</p>
+      <label class="lg-field">
+        <input name="username" id="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder=" " required>
+        <span>Kullanıcı adı</span>
+      </label>
+      <label class="lg-field">
+        <input name="password" type="password" autocomplete="current-password" placeholder=" " required>
+        <span>Şifre</span>
+        <button type="button" class="lg-eye" data-eye aria-label="Şifreyi göster">Göster</button>
+      </label>
+      <div class="lg-err" id="loginErr" role="alert"></div>
+      <button class="lg-btn" id="loginBtn">Giriş yap</button>
+      <p class="lg-help">Kullanıcı adınız <b>ad.soyad</b> biçimindedir, Türkçe harf olmadan: ör. <b>ayse.kaderoglu</b>, <b>mehmet.ali.bestav</b></p>
+    </form>
+
+    <form id="changeForm" hidden>
+      <p class="lg-sub"><b id="hello">Hoş geldiniz!</b><br>İlk girişiniz: lütfen yalnızca sizin bildiğiniz yeni bir şifre belirleyin.</p>
+      <label class="lg-field" id="currentWrap" hidden>
+        <input name="current" type="password" autocomplete="current-password" placeholder=" ">
+        <span>Mevcut şifre</span>
+      </label>
+      <label class="lg-field">
+        <input name="new" type="password" autocomplete="new-password" minlength="8" placeholder=" " required>
+        <span>Yeni şifre (en az 8 karakter)</span>
+        <button type="button" class="lg-eye" data-eye aria-label="Şifreyi göster">Göster</button>
+      </label>
+      <div class="lg-meter" aria-hidden="true"><i></i></div>
+      <label class="lg-field">
+        <input name="again" type="password" autocomplete="new-password" placeholder=" " required>
+        <span>Yeni şifre (tekrar)</span>
+      </label>
+      <div class="lg-err" id="changeErr" role="alert"></div>
+      <button class="lg-btn" id="changeBtn">Kaydet ve devam et</button>
+      <button type="button" class="lg-link" id="changeOut">Çıkış yap</button>
+    </form>
+  </main>
+
+  <script src="/social/assets/login.js"></script>
+</body>
+</html>

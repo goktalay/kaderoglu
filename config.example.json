@@ -1,0 +1,18 @@
+{
+  "host": "0.0.0.0",
+  "port": 443,
+  "ssl_certfile": "certs/origin.pem",
+  "ssl_keyfile": "certs/origin.key",
+  "cloudflare_only": true,
+  "trust_cf_header": true,
+  "session_idle_minutes": 120,
+  "session_max_hours": 12,
+  "tree_max_entries": 300000,
+  "username": "panel-yoneticisi@ornek.com",
+  "password_hash": "<setup_user.py ile üretilir>",
+  "panel_hosts": ["panel.kaderoglu.com", "panel.localhost"],
+  "family_noindex": true,
+  "map_precision": 2,
+  "social_default_password": "<aile hesaplarının başlangıç şifresi>",
+  "social_auto_archive": false
+}

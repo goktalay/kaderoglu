@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Uzak Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 12l3-3 3 3 4-5"/></svg>
+      </div>
+      <div><h1 id="hostname">Uzak Panel</h1></div>
+    </div>
+    <div class="host-chip">
+      <span>İşlemci <b id="cpuModel">–</b></span>
+      <span>Açık kalma <b id="uptime">–</b></span>
+      <span>Süreç <b id="procCount">–</b></span>
+    </div>
+    <div class="spacer"></div>
+    <span class="live" id="live"><i></i><span>Canlı</span></span>
+    <button class="btn sm" id="logout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+      Çıkış
+    </button>
+  </header>
+
+  <main>
+    <!-- ölçer kartları -->
+    <section class="grid g-4">
+      <div class="card gauge-card">
+        <div class="top">
+          <div class="gauge"><canvas id="gCpu"></canvas><div class="val" id="vCpu">0<small>%</small></div></div>
+          <div class="gauge-info">
+            <div class="label"><span class="ico" style="background:rgba(79,157,255,.15);color:var(--cpu)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span>CPU</div>
+            <div class="sub" id="cpuSub">–</div>
+            <dl class="kv"><dt>Frekans</dt><dd id="cpuFreq">–</dd><dt>Çekirdek</dt><dd id="cpuCores">–</dd></dl>
+          </div>
+        </div>
+        <div class="spark"><canvas id="sCpu"></canvas></div>
+      </div>
+      <div class="card gauge-card">
+        <div class="top">
+          <div class="gauge"><canvas id="gRam"></canvas><div class="val" id="vRam">0<small>%</small></div></div>
+          <div class="gauge-info">
+            <div class="label"><span class="ico" style="background:rgba(167,123,255,.15);color:var(--ram)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="1.5"/><path d="M6 11v2M10 11v2M14 11v2M18 11v2M5 17v3M19 17v3"/></svg></span>RAM</div>
+            <div class="sub" id="ramSub">–</div>
+            <dl class="kv"><dt>Boş</dt><dd id="ramFree">–</dd><dt>Takas</dt><dd id="swap">–</dd></dl>
+          </div>
+        </div>
+        <div class="spark"><canvas id="sRam"></canvas></div>
+      </div>
+      <div class="card gauge-card">
+        <div class="top">
+          <div class="gauge"><canvas id="gGpu"></canvas><div class="val" id="vGpu">0<small>%</small></div></div>
+          <div class="gauge-info">
+            <div class="label"><span class="ico" style="background:rgba(46,230,166,.15);color:var(--gpu)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="9" cy="12" r="3"/><circle cx="16.5" cy="12" r="1.5"/><path d="M6 18v2M10 18v2M14 18v2"/></svg></span>GPU</div>
+            <div class="sub" id="gpuSub">–</div>
+            <dl class="kv"><dt>VRAM</dt><dd id="gpuVram">–</dd><dt>Sıcaklık</dt><dd id="gpuTemp">–</dd></dl>
+          </div>
+        </div>
+        <div class="spark"><canvas id="sGpu"></canvas></div>
+      </div>
+      <div class="card gauge-card">
+        <div class="top">
+          <div class="gauge"><canvas id="gDisk"></canvas><div class="val" id="vDisk">0<small>%</small></div></div>
+          <div class="gauge-info">
+            <div class="label"><span class="ico" style="background:rgba(255,181,71,.15);color:var(--disk)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>Disk</div>
+            <div class="sub" id="diskSub">–</div>
+            <dl class="kv"><dt>Okuma</dt><dd id="diskR">–</dd><dt>Yazma</dt><dd id="diskW">–</dd></dl>
+          </div>
+        </div>
+        <div class="spark"><canvas id="sDisk"></canvas></div>
+      </div>
+    </section>
+
+    <!-- büyük grafikler -->
+    <section class="grid g-main mt">
+      <div class="card">
+        <div class="card-h">
+          <h3>Kaynak kullanımı · son 3 dakika</h3>
+          <div class="legend">
+            <span><i style="background:var(--cpu)"></i>CPU</span>
+            <span><i style="background:var(--ram)"></i>RAM</span>
+            <span><i style="background:var(--gpu)"></i>GPU</span>
+            <span><i style="background:#ffd166"></i>VRAM</span>
+          </div>
+        </div>
+        <div class="chart-box"><canvas id="cUsage"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-h">
+          <h3>Ağ trafiği</h3>
+          <div class="legend">
+            <span><i style="background:var(--down)"></i>İndirme <b id="netDown">–</b></span>
+            <span><i style="background:var(--up)"></i>Yükleme <b id="netUp">–</b></span>
+          </div>
+        </div>
+        <div class="chart-box"><canvas id="cNet"></canvas></div>
+      </div>
+    </section>
+
+    <section class="grid g-3 mt">
+      <div class="card">
+        <div class="card-h"><h3>Çekirdek başına CPU</h3><span class="small muted" id="coreInfo"></span></div>
+        <div class="chart-box sm"><canvas id="cCores"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>GPU ayrıntıları</h3><span class="small muted" id="gpuName"></span></div>
+        <div class="tiles">
+          <div class="tile"><div class="t">Güç</div><div class="v" id="tPower">–</div><div class="bar"><i id="bPower" style="background:var(--gpu)"></i></div></div>
+          <div class="tile"><div class="t">Sıcaklık</div><div class="v" id="tTemp">–</div><div class="bar"><i id="bTemp" style="background:linear-gradient(90deg,#2ee6a6,#ffb547,#ff5d6c)"></i></div></div>
+          <div class="tile"><div class="t">Saat hızı</div><div class="v" id="tClock">–</div><div class="bar"><i id="bClock" style="background:var(--cpu)"></i></div></div>
+          <div class="tile"><div class="t">Fan</div><div class="v" id="tFan">–</div><div class="bar"><i id="bFan" style="background:var(--down)"></i></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Sürücüler</h3><span class="small muted" id="diskTotal"></span></div>
+        <div id="drives"></div>
+        <div class="chart-box sm" style="height:110px;margin-top:8px"><canvas id="cDiskIo"></canvas></div>
+      </div>
+    </section>
+
+    <!-- sekmeler -->
+    <section class="card tabs-card mt">
+      <nav class="tabs">
+        <button class="tab active" data-tab="procs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Uygulamalar <span class="count" id="procTabCount">0</span>
+        </button>
+        <button class="tab" data-tab="files">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          Dosyalar
+        </button>
+      </nav>
+
+      <div class="tab-pane active" id="pane-procs">
+        <div class="toolbar">
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input class="input" id="procSearch" placeholder="Uygulama, PID veya kullanıcı ara…">
+          </div>
+          <div class="seg" id="procMode">
+            <button data-mode="group" class="on">Uygulamaya göre</button>
+            <button data-mode="all">Tüm süreçler</button>
+          </div>
+          <div class="spacer"></div>
+          <span class="small muted" id="procSummary"></span>
+          <button class="btn sm" id="procPause">Duraklat</button>
+        </div>
+        <div class="tbl-wrap">
+          <table class="tbl" id="procTable">
+            <thead>
+              <tr>
+                <th data-k="name">Ad<span class="arr">▲</span></th>
+                <th data-k="pid" class="num">PID<span class="arr">▲</span></th>
+                <th data-k="user">Kullanıcı<span class="arr">▲</span></th>
+                <th data-k="cpu" class="num">CPU<span class="arr">▲</span></th>
+                <th data-k="mem" class="num">Bellek<span class="arr">▲</span></th>
+                <th data-k="io" class="num">Disk G/Ç<span class="arr">▲</span></th>
+                <th data-k="threads" class="num">İş parçacığı<span class="arr">▲</span></th>
+                <th data-k="status">Durum<span class="arr">▲</span></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="pane-files">
+        <div class="toolbar">
+          <div class="chips" id="roots"></div>
+        </div>
+        <div class="toolbar">
+          <button class="btn sm" id="fsUp" title="Üst klasör">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </button>
+          <div class="crumbs" id="crumbs"></div>
+          <div class="spacer"></div>
+          <label class="small muted"><input type="checkbox" id="showHidden"> Gizlileri göster</label>
+          <button class="btn sm" id="fsZip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            Bu klasörü ZIP indir
+          </button>
+          <button class="btn sm primary" id="fsCopy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+            Bu klasörü bilgisayarıma kopyala
+          </button>
+        </div>
+        <div class="files-layout" id="filesLayout">
+          <div class="tbl-wrap">
+            <table class="tbl" id="fileTable">
+              <thead>
+                <tr>
+                  <th data-k="name">Ad<span class="arr">▲</span></th>
+                  <th data-k="size" class="num">Boyut<span class="arr">▲</span></th>
+                  <th data-k="mtime">Değiştirilme<span class="arr">▲</span></th>
+                  <th class="num" style="cursor:default"></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="copy-panel" id="copyPanel" hidden>
+            <div class="copy-head">
+              <div class="ttl"><b id="copyTitle">Kopyalama</b><span class="small muted" id="copyState"></span></div>
+              <div class="stats">
+                <span>Dosya <b id="copyFiles">0 / 0</b></span>
+                <span>Boyut <b id="copyBytes">0 / 0</b></span>
+                <span>Hız <b id="copySpeed">–</b></span>
+                <span>Kalan <b id="copyEta">–</b></span>
+              </div>
+              <div class="big-bar"><i id="copyBar"></i></div>
+            </div>
+            <div class="tree" id="copyTree"></div>
+            <div class="copy-foot">
+              <span class="note" id="copyNote"></span>
+              <button class="btn sm danger" id="copyCancel">İptal</button>
+              <button class="btn sm" id="copyClose" hidden>Kapat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="/static/files.js"></script>
+</body>
+</html>

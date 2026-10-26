@@ -1,0 +1,114 @@
+/* Duvar: Instagram tarzı akış */
+html, body { margin: 0; }
+.wl-body { background: var(--sx-bg); min-height: 100vh; }
+
+/* ------------------------------------------------------------ üst bar */
+.wl-top { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, .92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--sx-line); }
+.wl-top-in { max-width: 975px; margin: 0 auto; padding: 0 16px; height: 60px; display: flex; align-items: center; gap: 16px; }
+.wl-logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--sx-ink); margin-right: auto; }
+.wl-logo svg { width: 28px; height: 28px; color: var(--sx-leaf); }
+.wl-logo span { font: 600 26px/1 var(--sx-serif); letter-spacing: -.01em; }
+.wl-nav { display: flex; align-items: center; gap: 6px; }
+.wl-nav .sx-ibtn.wl-active { color: var(--sx-ink); }
+.wl-nav .sx-ibtn.wl-active svg { stroke-width: 2.6; }
+.wl-nav .sx-me { border: 0; background: none; padding: 4px; cursor: pointer; border-radius: 50%; }
+
+/* ------------------------------------------------------------ yerleşim */
+.wl-main { max-width: 975px; margin: 0 auto; padding: 28px 16px 60px; display: flex; gap: 64px; justify-content: center; }
+.wl-feedcol { width: 100%; max-width: 470px; }
+.wl-side { width: 300px; flex: none; position: sticky; top: 88px; align-self: flex-start; }
+@media (max-width: 1000px) { .wl-side { display: none; } }
+@media (max-width: 520px) {
+  .wl-main { padding: 0 0 60px; }
+  .wl-feedcol { max-width: none; }
+  .wl-logo span { font-size: 22px; }
+  .wl-top-in { gap: 6px; padding: 0 8px 0 12px; }
+}
+
+.wl-composer { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 18px; cursor: pointer; text-align: left;
+  background: #fff; border: 1px solid var(--sx-line); border-radius: 12px; color: var(--sx-muted); font-size: 15px; transition: border-color .15s; }
+.wl-composer:hover { border-color: #b5b5b5; }
+.wl-composer-text { flex: 1; }
+.wl-composer-icon svg { width: 26px; height: 26px; color: var(--sx-leaf); display: block; }
+@media (max-width: 520px) { .wl-composer { border-radius: 0; border-width: 0 0 1px; margin: 0; } }
+
+.wl-filter { display: flex; align-items: center; gap: 16px; padding: 18px; margin-bottom: 18px; background: #fff; border: 1px solid var(--sx-line); border-radius: 12px; }
+.wl-filter .sx-av { width: 72px; height: 72px; font-size: 24px; }
+.wl-filter h2 { margin: 0; font-size: 20px; font-weight: 600; }
+.wl-filter p { margin: 2px 0 6px; color: var(--sx-muted); }
+
+/* ------------------------------------------------------------ gönderi kartı */
+.wl-feed { display: grid; gap: 18px; }
+.wl-post { background: #fff; border: 1px solid var(--sx-line); border-radius: 10px; overflow: hidden; }
+@media (max-width: 520px) { .wl-feed { gap: 0; } .wl-post { border-radius: 0; border-width: 0 0 1px; } }
+.wl-head { display: flex; align-items: center; gap: 10px; padding: 10px 6px 10px 14px; }
+.wl-head > div { flex: 1; min-width: 0; line-height: 1.25; }
+.wl-head small { display: block; color: var(--sx-muted); font-size: 12px; }
+.wl-media { position: relative; background: #000; display: grid; place-items: center; overflow: hidden; user-select: none; }
+.wl-media img, .wl-media video { width: 100%; max-height: 585px; object-fit: contain; display: block; }
+.wl-media.wl-wide img { object-fit: cover; }
+.wl-burst { position: absolute; left: 50%; top: 50%; width: 96px; height: 96px; margin: -48px 0 0 -48px; color: #fff; pointer-events: none;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, .35)); animation: burst .8s ease-out forwards; }
+.wl-burst svg { width: 100%; height: 100%; fill: #fff; stroke: #fff; }
+@keyframes burst { 0% { transform: scale(0); opacity: 0; } 15% { transform: scale(1.2); opacity: 1; } 30% { transform: scale(.95); } 45%, 80% { transform: scale(1); opacity: 1; } 100% { transform: scale(1) translateY(-30px); opacity: 0; } }
+.wl-proc { aspect-ratio: 4 / 3; width: 100%; display: grid; place-content: center; justify-items: center; gap: 12px; color: #fff; text-align: center; padding: 20px;
+  background: linear-gradient(135deg, #2b3a28, #4f7a4a); }
+.wl-proc .sx-spin { border-color: rgba(255, 255, 255, .25); border-top-color: #fff; width: 34px; height: 34px; }
+.wl-proc small { opacity: .75; }
+.wl-held { padding: 8px 14px; background: #fff7e0; color: #7a5a00; font-size: 13px; border-top: 1px solid #f1e2b3; }
+.wl-body-in { padding: 4px 14px 12px; }
+.wl-body-in .sx-acts { margin-left: -10px; }
+.wl-cap { margin: 4px 0 0; word-wrap: break-word; white-space: pre-wrap; }
+.wl-cap.wl-clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wl-morecap { border: 0; background: none; color: var(--sx-muted); padding: 0; cursor: pointer; }
+.wl-people { margin: 6px 0 0; font-size: 13px; color: var(--sx-muted); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.wl-people .sx-chip { font-size: 12px; }
+.wl-allc { display: block; border: 0; background: none; padding: 0; margin: 6px 0 2px; color: var(--sx-muted); cursor: pointer; }
+.wl-pc { margin: 2px 0 0; word-wrap: break-word; }
+.wl-when { display: block; margin-top: 6px; font-size: 10.5px; letter-spacing: .02em; color: var(--sx-muted); text-transform: uppercase; }
+.wl-post .sx-form { padding: 10px 14px; }
+.wl-sentinel { display: grid; place-items: center; padding: 30px; }
+.wl-end { text-align: center; color: var(--sx-muted); padding: 30px 0; }
+.wl-end svg { width: 48px; height: 48px; display: block; margin: 0 auto 8px; color: var(--sx-leaf); }
+
+/* ------------------------------------------------------------ yan sütun */
+.wl-me { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.wl-me .sx-av { width: 52px; height: 52px; font-size: 18px; }
+.wl-me div { flex: 1; min-width: 0; line-height: 1.3; }
+.wl-me small { display: block; color: var(--sx-muted); }
+.wl-side h4 { margin: 0 0 12px; font-size: 14px; color: var(--sx-muted); font-weight: 600; }
+.wl-fam { display: flex; align-items: center; gap: 12px; padding: 6px 0; text-decoration: none; color: var(--sx-ink); }
+.wl-fam div { line-height: 1.25; min-width: 0; }
+.wl-fam small { display: block; color: var(--sx-muted); font-size: 12px; }
+.wl-fam:hover b { text-decoration: underline; }
+.wl-foot { margin-top: 22px; font-size: 11.5px; color: #a8a8a8; }
+
+/* ------------------------------------------------------------ yükleme penceresi */
+.wl-up { background: #fff; border-radius: 14px; width: min(860px, 100%); max-height: calc(100vh - 48px); display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--sx-shadow); }
+.wl-up-head { display: flex; align-items: center; justify-content: center; position: relative; height: 46px; border-bottom: 1px solid var(--sx-soft); font-weight: 600; font-size: 16px; }
+.wl-up-head .sx-link { position: absolute; right: 16px; }
+.wl-up-head .wl-back { position: absolute; left: 6px; }
+.wl-up-body { display: flex; min-height: 0; flex: 1; }
+.wl-drop { flex: 1; min-height: 420px; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; padding: 30px; transition: background .15s; }
+.wl-drop.wl-over { background: #f0f7ff; }
+.wl-drop svg { width: 90px; height: 90px; color: var(--sx-ink); }
+.wl-drop p { margin: 0; font-size: 20px; }
+.wl-drop small { color: var(--sx-muted); }
+.wl-prev { flex: 1 1 60%; min-width: 0; background: #000; display: grid; place-items: center; }
+.wl-prev img, .wl-prev video { max-width: 100%; max-height: min(560px, calc(100vh - 140px)); display: block; }
+.wl-meta { width: 320px; flex: none; display: flex; flex-direction: column; border-left: 1px solid var(--sx-soft); }
+.wl-meta .wl-who { display: flex; gap: 10px; align-items: center; padding: 14px 16px 8px; font-weight: 600; }
+.wl-meta .wl-capbox { position: relative; padding: 0 16px; }
+.wl-meta textarea { width: 100%; min-height: 160px; border: 0; outline: 0; resize: vertical; font: inherit; color: var(--sx-ink); }
+.wl-meta .wl-count { text-align: right; color: #c7c7c7; font-size: 12px; padding: 0 16px 10px; border-bottom: 1px solid var(--sx-soft); }
+.wl-meta .wl-note { padding: 12px 16px; color: var(--sx-muted); font-size: 12.5px; display: flex; gap: 10px; }
+.wl-meta .wl-note svg { width: 20px; height: 20px; flex: none; color: var(--sx-leaf); }
+.wl-progress { height: 3px; background: var(--sx-soft); }
+.wl-progress i { display: block; height: 100%; width: 0; background: var(--sx-blue); transition: width .2s; }
+@media (max-width: 760px) {
+  .wl-up { max-height: 100vh; height: 100%; border-radius: 0; }
+  .wl-up-body { flex-direction: column; overflow: auto; }
+  .wl-meta { width: auto; border-left: 0; }
+  .wl-drop { min-height: 300px; }
+  .wl-meta textarea { min-height: 90px; }
+}

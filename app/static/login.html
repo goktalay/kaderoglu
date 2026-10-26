@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Uzak Panel · Giriş</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-orb a"></div>
+    <div class="login-orb b"></div>
+    <div class="login-orb c"></div>
+    <form class="login-card" id="form" autocomplete="on">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 12l3-3 3 3 4-5"/></svg>
+        </div>
+        <div>
+          <h1>Uzak Panel</h1>
+          <p>Bilgisayarına güvenli erişim</p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="username">E-posta</label>
+        <input class="input" id="username" name="username" type="email" autocomplete="username" placeholder="ornek@alanadi.com" required autofocus>
+      </div>
+      <div class="field">
+        <label for="password">Şifre</label>
+        <div class="pw-wrap">
+          <input class="input" id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+          <button type="button" class="pw-toggle" id="pwToggle" aria-label="Şifreyi göster">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <button class="btn primary" id="submit" type="submit">Giriş yap</button>
+      <div class="login-error" id="error" role="alert"></div>
+      <div class="login-foot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Uçtan uca şifreli bağlantı
+      </div>
+    </form>
+  </div>
+  <script src="/static/login.js"></script>
+</body>
+</html>

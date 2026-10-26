@@ -1,0 +1,16 @@
+# Gizli bilgiler: şifre özeti, başlangıç şifresi, Cloudflare origin sertifikası/anahtarı
+config.json
+certs/
+
+# Aile verisi: fotoğraflar, videolar, dizin, kişiler, veritabanı, yüklemeler (onlarca GB ve özel)
+data/
+
+# Ortam, günlükler, önbellekler
+.venv/
+logs/
+__pycache__/
+*.pyc
+.claude/
+
+# Yapay zeka modelleri (~70 MB): tools/get_models.py ile indirilir
+models/
