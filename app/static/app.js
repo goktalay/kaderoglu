@@ -379,6 +379,65 @@ $("#logout").addEventListener("click", async () => {
   location.replace("/login");
 });
 
+/* ================================================================ Epic / Fab indirmeleri */
+const epicThumb = (it, cls) => it.thumb
+  ? `<img class="${cls}" src="${esc(it.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer">`
+  : `<span class="${cls} ph">${esc((it.title || "?").charAt(0).toUpperCase())}</span>`;
+const fmtClock = (t) => (t ? new Date(t * 1000).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }) : "");
+
+function renderEpic(d) {
+  const card = $("#epicCard");
+  const any = d.active || d.queued.length || d.done.length;
+  card.hidden = !d.available || !any;
+  if (card.hidden) return;
+
+  const a = d.active;
+  // yapı sadece etkin öğe veya listeler değişince yeniden çizilir; kapak resimleri her turda yeniden yüklenmesin
+  const activeKey = a ? a.id : `none:${d.queued.length > 0}`;
+  if (epicKeys.active !== activeKey) {
+    epicKeys.active = activeKey;
+    $("#epicActive").innerHTML = a ? `${epicThumb(a, "epic-thumb")}
+      <div class="epic-main">
+        <div class="epic-title">${esc(a.title)}</div>
+        <div class="epic-bar"><i></i></div>
+        <div class="epic-meta"><span><b data-e="state"></b> <span data-e="eta"></span></span><span data-e="total"></span><span data-e="speed"></span></div>
+      </div>
+      <div class="epic-pct" data-e="pct"></div>`
+      : `<div class="epic-empty">Şu an etkin indirme yok${d.queued.length ? " · sırada bekleyenler var" : ""}.</div>`;
+  }
+  if (a) {
+    const box = $("#epicActive");
+    const set = (k, v) => { box.querySelector(`[data-e="${k}"]`).textContent = v; };
+    set("state", a.stalled ? "Bekliyor / duraklatıldı" : "İndiriliyor");
+    set("eta", a.eta ? `${fmtDur(a.eta)} kaldı` : "");
+    set("total", a.total_bytes ? `${fmtBytes(a.done_bytes)} / ${fmtBytes(a.total_bytes)}` : `${a.done_files} / ${a.files} dosya`);
+    set("speed", `Yazma ${a.speed ? (a.speed * 8 / 1e6).toFixed(0) + " Mbps" : "–"}`);
+    set("pct", `%${a.percent.toFixed(1)}`);
+    box.querySelector(".epic-bar").classList.toggle("stalled", a.stalled);
+    box.querySelector(".epic-bar i").style.width = a.percent + "%";
+  }
+  $("#epicSummary").textContent = [a ? "1 etkin" : "", d.queued.length ? `${d.queued.length} sırada` : ""].filter(Boolean).join(" · ");
+  const qKey = d.queued.map((q) => q.id).join("|");
+  if (epicKeys.queue !== qKey) {
+    epicKeys.queue = qKey;
+    $("#epicQueue").innerHTML = d.queued.map((q) => `<div class="epic-row">${epicThumb(q, "")}<span class="n">${esc(q.title)}</span><span class="s">Kuyrukta</span></div>`).join("")
+      || `<div class="epic-empty">Sırada bekleyen yok</div>`;
+  }
+  const dKey = d.done.map((q) => q.id + q.status).join("|");
+  if (epicKeys.done !== dKey) {
+    epicKeys.done = dKey;
+    $("#epicDone").innerHTML = d.done.map((q) => `<div class="epic-row">${epicThumb(q, "")}<span class="n">${esc(q.title)}</span>
+        <span class="s ${q.status === "done" ? "ok" : "err"}">${q.status === "done" ? "✓ " + fmtClock(q.done_at) : "Hata"}</span></div>`).join("")
+      || `<div class="epic-empty">Henüz yok</div>`;
+  }
+}
+const epicKeys = {};
+
+async function tickEpic() {
+  try { renderEpic(await api("/api/epic")); } catch { /* bir sonraki turda */ }
+  setTimeout(tickEpic, document.hidden ? 10000 : 2000);
+}
+
 (async () => {
   try {
     await loadSystem();
@@ -388,4 +447,5 @@ $("#logout").addEventListener("click", async () => {
   }
   tickMetrics();
   tickProcs();
+  tickEpic();
 })();

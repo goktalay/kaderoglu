@@ -18,6 +18,7 @@ from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
+from epic import EpicWatcher
 from metrics import Sampler
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,6 +35,8 @@ CHUNK = 1024 * 1024
 
 sampler = Sampler()
 sampler.start()
+epic_watcher = EpicWatcher()  # Epic Games Launcher / Fab indirmeleri (günlükten)
+epic_watcher.start()
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
@@ -118,7 +121,7 @@ async def security_headers(request: Request, call_next):
     h["Content-Security-Policy"] = (
         "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; "
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; "
-        "img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'"
+        "img-src 'self' data: https://media.fab.com; connect-src 'self'; frame-ancestors 'none'"
     )
     if is_https(request):
         h["Strict-Transport-Security"] = "max-age=31536000"
@@ -191,6 +194,11 @@ async def history():
 @app.get("/api/processes", dependencies=[Depends(require_auth)])
 async def processes():
     return sampler.get_processes()
+
+
+@app.get("/api/epic", dependencies=[Depends(require_auth)])
+async def epic_downloads():
+    return epic_watcher.snapshot()
 
 
 # ------------------------------------------------------------------ dosyalar

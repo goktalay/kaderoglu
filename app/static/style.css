@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #070b16;
   --bg-2: #0c1222;
   --card: rgba(18, 26, 46, .72);
@@ -306,3 +306,27 @@ tr:hover .row-actions, tr.selected .row-actions { opacity: 1; }
   .g-4, .g-main, .g-3 { grid-template-columns: minmax(0, 1fr); }
   .tnode { grid-template-columns: minmax(0, 1fr) 80px 48px; }
 }
+
+/* ------------------------------------------------------------ Epic / Fab indirmeleri */
+.epic-active { display: flex; gap: 16px; align-items: center; padding: 14px; border-radius: 14px; background: rgba(255, 255, 255, .03); border: 1px solid var(--line); }
+.epic-thumb { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex: none; background: rgba(124, 140, 255, .15); }
+.epic-thumb.ph { display: grid; place-items: center; color: #9aa6ff; font-weight: 700; font-size: 20px; }
+.epic-main { flex: 1; min-width: 0; }
+.epic-title { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.epic-bar { height: 8px; border-radius: 8px; background: rgba(255, 255, 255, .07); overflow: hidden; margin: 8px 0 6px; }
+.epic-bar i { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, #4f9dff, #7c8cff); transition: width .6s ease; }
+.epic-bar.stalled i { background: var(--disk); }
+.epic-meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.epic-meta b { color: var(--text); font-weight: 600; }
+.epic-pct { font-size: 26px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; min-width: 86px; text-align: right; }
+.epic-lists { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 14px; }
+.epic-sub { font-size: 11.5px; color: var(--dim); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+.epic-row { display: flex; align-items: center; gap: 10px; padding: 6px 4px; border-bottom: 1px dashed var(--line); font-size: 13px; }
+.epic-row:last-child { border-bottom: 0; }
+.epic-row img, .epic-row .ph { width: 30px; height: 30px; border-radius: 6px; object-fit: cover; flex: none; background: rgba(124, 140, 255, .12); display: grid; place-items: center; font-size: 12px; color: #9aa6ff; }
+.epic-row .n { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.epic-row .s { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.epic-row .s.ok { color: var(--ok); }
+.epic-row .s.err { color: var(--danger); }
+.epic-empty { color: var(--dim); font-size: 12.5px; padding: 6px 4px; }
+@media (max-width: 860px) { .epic-lists { grid-template-columns: 1fr; } .epic-pct { font-size: 20px; min-width: 60px; } }
